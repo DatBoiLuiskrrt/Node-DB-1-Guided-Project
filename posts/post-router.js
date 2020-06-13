@@ -51,7 +51,15 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-
+    db('posts')
+    .where( { id: req.params.id }) // remember to use where
+    .del() //deletes the records
+    .then( count => {
+        if(count >= 1){
+        res.status(200).json( { message: "Record deleted succesfully"})
+    }else{
+        res.status(500).json( { message: "post not found"});
+    }});
 });
 
 module.exports = router;
